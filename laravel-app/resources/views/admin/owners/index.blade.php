@@ -2,7 +2,6 @@
 	<x-slot name="header">
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
 			オーナー一覧
-			hogehoge
 		</h2>
 	</x-slot>
 
