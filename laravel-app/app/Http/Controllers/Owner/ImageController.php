@@ -24,7 +24,7 @@ class ImageController extends Controller
     {
 			$images = Image::where('id', '1')
 			->orderBy('created_at', 'desc')
-			->pagenate(20);
+			->paginate(20);
 
 			return view('owner.images.index', compact('images'));
     }
