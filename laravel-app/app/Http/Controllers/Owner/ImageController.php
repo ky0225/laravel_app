@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Image;
 
 class ImageController extends Controller
 {
@@ -21,7 +22,11 @@ class ImageController extends Controller
 
     public function index()
     {
-        //
+			$images = Image::all()
+			->orderBy('created_at', 'desc')
+			->pagenate(20);
+
+			return view('owner.images.index', compact('images'));
     }
 
     /**
