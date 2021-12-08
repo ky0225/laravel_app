@@ -22,7 +22,7 @@ class ImageController extends Controller
 
     public function index()
     {
-			$images = Image::all()
+			$images = Image::where('id', '1')
 			->orderBy('created_at', 'desc')
 			->pagenate(20);
 
