@@ -9,24 +9,33 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null  ...$guards
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
-    public function handle(Request $request, Closure $next, ...$guards)
-    {
-        $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
-        }
+	// プロパティ
+	private const GUARD_USER = 'users';
+	private const GUARD_OWNER = 'owners';
+	private const GUARD_ADMIN = 'admin';
 
-        return $next($request);
-    }
+	/**
+	 * Handle an incoming request.
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 * @param \Closure $next
+	 * @param string|null ...$guards
+	 * @return mixed
+	 */
+	public function handle(Request $request, Closure $next, ...$guards)
+	{
+		// ユーザーとして認証している、かつ URL が正しい場合にリダイレクト
+		if (Auth::guard(self::GUARD_USER)->check() && $request->routeIs('user.*')) {
+			return redirect(RouteServiceProvider::HOME);
+		}
+		if (Auth::guard(self::GUARD_OWNER)->check() && $request->routeIs('owner.*')) {
+			return redirect(RouteServiceProvider::OWNER_HOME);
+		}
+		if (Auth::guard(self::GUARD_ADMIN)->check() && $request->routeIs('admin.*')) {
+			return redirect(RouteServiceProvider::ADMIN_HOME);
+		}
+
+		return $next($request);
+	}
 }
