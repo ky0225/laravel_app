@@ -9,6 +9,7 @@ use App\Http\Controllers\Owner\Auth\NewPasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
+use App\Http\Controllers\Owner\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,10 @@ Route::get('/dashboard', function () {
 	return view('owner.dashboard');
 	// owners の権限をもっていたら表示される
 })->middleware(['auth:owners'])->name('dashboard');
+
+Route::resource('images', ImageController::class)
+	->middleware(['auth:owners'])
+	->except(['show']);
 
 // auth.php の内容を貼り付け
 Route::get('/register', [RegisteredUserController::class, 'create'])

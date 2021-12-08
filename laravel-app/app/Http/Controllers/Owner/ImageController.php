@@ -12,6 +12,13 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+	// コントローラーでもユーザー認証を設定する
+	public function __construct()
+	{
+		$this->middleware('auth:owners');
+	}
+
     public function index()
     {
         //
