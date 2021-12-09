@@ -10,6 +10,7 @@ use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use App\Http\Controllers\Owner\ImageController;
+use App\Http\Controllers\Owner\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,12 @@ Route::resource('images', ImageController::class)
 	->middleware(['auth:owners'])
 	->except(['show']);
 
-// auth.php の内容を貼り付け
+// Employee のルーティング
+Route::resource('employees', EmployeeController::class)
+	->middleware(['auth:owners'])
+	->except(['show']);
+
+// 以下全て auth.php の内容を貼り付け
 Route::get('/register', [RegisteredUserController::class, 'create'])
 	->middleware('guest')
 	->name('register');
