@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Http\Requests\UploadImageRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -44,11 +45,17 @@ class ImageController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
 	 */
 	public function store(UploadImageRequest $request)
 	{
-		dd($request);
+		$imageFile = $request->image;
+		if (isset($imageFile) && $imageFile->isValid()) {
+			// 第一引数で保存先を指定。putFile はデータ名も作ってくれる
+			Storage::putFile('public/images', $imageFile);
+		}
+
+		return redirect()->route('owner.images.index');
 	}
 
 	/**
