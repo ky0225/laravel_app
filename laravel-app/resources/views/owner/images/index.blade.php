@@ -12,7 +12,7 @@
 					<div class="flex justify-end mb-4">
 						<button onclick="location.href='{{ route('owner.images.create') }}'" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録する</button>
 					</div>
-					{{--画像仮置き--}}
+					画像仮置き
 					<img src="{{ asset('images/default.png') }}">
 					@foreach($images as $image)
 						<div class="w-1/4 p-4">

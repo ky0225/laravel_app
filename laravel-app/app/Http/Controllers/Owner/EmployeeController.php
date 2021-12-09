@@ -3,20 +3,18 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Models\Image;
-use App\Http\Requests\UploadImageRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Employee;
+use App\Models\Organization;
+use App\Models\Base;
 
-class ImageController extends Controller
+class EmployeeController extends Controller
 {
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-
-	// コントローラーでもユーザー認証を設定する
 	public function __construct()
 	{
 		$this->middleware('auth:owners');
@@ -24,11 +22,10 @@ class ImageController extends Controller
 
 	public function index()
 	{
-		$images = Image::where('id', '1')
-			->orderBy('created_at', 'desc')
-			->paginate(20);
+		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
+			->orderBy('id', 'asc')->paginate(50);
 
-		return view('owner.images.index', compact('images'));
+		return view('owner.employees.index', compact('employees'));
 	}
 
 	/**
@@ -38,24 +35,21 @@ class ImageController extends Controller
 	 */
 	public function create()
 	{
-		return view('owner.images.create');
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
+
+		return view('owner.employees.create', compact('organizations', 'bases'));
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+	 * @return \Illuminate\Http\Response
 	 */
-	public function store(UploadImageRequest $request)
+	public function store(Request $request)
 	{
-		$imageFile = $request->image;
-		if (isset($imageFile) && $imageFile->isValid()) {
-			// 第一引数で保存先を指定。putFile はデータ名も作ってくれる
-			Storage::putFile('public/images', $imageFile);
-		}
-
-		return redirect()->route('owner.images.index');
+		//
 	}
 
 	/**
