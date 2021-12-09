@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
 			OwnerSeeder::class,
 			OrganizationSeeder::class,
 			BaseSeeder::class,
+			EmployeeSeeder::class,
 		]);
 	}
 }
