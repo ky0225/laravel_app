@@ -49,15 +49,15 @@ class EmployeeController extends Controller
 	 */
 	public function store(Request $request)
 	{
-//		$request->validate([
-//			'id' => ['required', 'integer', 'unique:id'],
-//			// 外部キー制約があるため、exists:テーブル名, カラム名 としいずれも必須であることをルールとする
-//			'organization_id' => ['required', 'exists:organizations,id'],
-//			'base_id' => ['required', 'exists:bases,id'],
-//			'last_name' => ['required', 'string', 'max:10', 'unique:id'],
-//			'first_name' => ['required', 'string', 'max:10', 'unique:id'],
-//			'email' => ['required', 'string', 'email', 'unique:email'],
-//		]);
+		$request->validate([
+			'id' => ['required', 'integer', 'unique:employees'],
+			// 外部キー制約があるため、exists:テーブル名, カラム名 としいずれも必須であることをルールとする
+			'organization_id' => ['required', 'exists:organizations'],
+			'base_id' => ['required', 'exists:bases'],
+			'last_name' => ['required', 'string', 'max:10'],
+			'first_name' => ['required', 'string', 'max:10'],
+			'email' => ['required', 'string', 'email', 'unique:employees'],
+		]);
 
 		Employee::create([
 			'id' => $request->id,
