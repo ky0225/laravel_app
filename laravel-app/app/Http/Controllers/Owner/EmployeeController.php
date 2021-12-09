@@ -31,11 +31,14 @@ class EmployeeController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function create()
 	{
-		//
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
+
+		return view('owner.employees.create', compact('organizations', 'bases'));
 	}
 
 	/**
