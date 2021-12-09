@@ -45,11 +45,36 @@ class EmployeeController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(Request $request)
 	{
-		//
+//		$request->validate([
+//			'id' => ['required', 'integer', 'unique:id'],
+//			// 外部キー制約があるため、exists:テーブル名, カラム名 としいずれも必須であることをルールとする
+//			'organization_id' => ['required', 'exists:organizations,id'],
+//			'base_id' => ['required', 'exists:bases,id'],
+//			'last_name' => ['required', 'string', 'max:10', 'unique:id'],
+//			'first_name' => ['required', 'string', 'max:10', 'unique:id'],
+//			'email' => ['required', 'string', 'email', 'unique:email'],
+//		]);
+
+		Employee::create([
+			'id' => $request->id,
+			'organization_id' => $request->organization,
+			'base_id' => $request->base,
+			'last_name' => $request->last_name,
+			'first_name' => $request->first_name,
+			'email' => $request->email,
+		]);
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '社員名簿への登録が完了しました。',
+				'status' => 'info',
+				]);
+
 	}
 
 	/**
