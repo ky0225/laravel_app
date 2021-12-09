@@ -22,8 +22,8 @@ class EmployeeController extends Controller
 
 	public function index()
 	{
-		$employees = Employee::select('id', 'organization', 'base', 'last_name', 'first_name', 'email')
-			->orderBy('id', 'desc')->paginage(50);
+		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
+			->orderBy('id', 'asc')->paginate(50);
 
 		return view('owner.employees.index', compact('employees'));
 	}
