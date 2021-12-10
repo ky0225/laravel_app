@@ -41,6 +41,14 @@ Route::resource('employees', EmployeeController::class)
 	->middleware(['auth:owners'])
 	->except(['show']);
 
+// ソフトデリートしたデータ一覧の閲覧と完全削除用のルーティング
+Route::prefix('expired-employees')
+	->middleware('auth:owners')
+	->group(function () {
+		Route::get('index', [EmployeeController::class, 'expiredEmployeeIndex'])->name('expired-employees.index');
+		Route::post('destroy/{employee}', [EmployeeController::class, 'expiredEmployeeDestroy'])->name('expired-employees.destroy');
+	});
+
 // 以下全て auth.php の内容を貼り付け
 Route::get('/register', [RegisteredUserController::class, 'create'])
 	->middleware('guest')
