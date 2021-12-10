@@ -124,10 +124,17 @@ class EmployeeController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($id)
 	{
-		//
+		Employee::findOrFail($id)->delete(); // ソフトデリート
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '名簿から削除しました',
+				'status' => 'alert',
+			]);
 	}
 }
