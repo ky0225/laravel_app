@@ -137,4 +137,17 @@ class EmployeeController extends Controller
 				'status' => 'alert',
 			]);
 	}
+
+	public function expiredEmployeeIndex()
+	{
+		$expiredEmployees = Employee::onlyTrashed()->get();
+
+		return view('owner.expired-employees.index', compact('expiredEmployees'));
+	}
+
+	public function expiredEmployeeDestroy()
+	{
+
+	}
+
 }
