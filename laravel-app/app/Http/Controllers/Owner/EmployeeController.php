@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\EmployeeStoreRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -48,7 +49,7 @@ class EmployeeController extends Controller
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function store(EmployeeRequest $request)
+	public function store(EmployeeStoreRequest $request)
 	{
 		Employee::create([
 			'id' => $request->id,
@@ -98,11 +99,25 @@ class EmployeeController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function update(EmployeeRequest $request, $id)
+	public function update(EmployeeUpdateRequest $request, $id)
 	{
-		//
+		$employee = Employee::findOrFail($id);
+		$employee->id = $request->id;
+		$employee->organization_id = $request->organization;
+		$employee->base_id = $request->base;
+		$employee->last_name = $request->last_name;
+		$employee->first_name = $request->first_name;
+		$employee->email = $request->email;
+		$employee->save();
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '社員情報の更新が完了しました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
