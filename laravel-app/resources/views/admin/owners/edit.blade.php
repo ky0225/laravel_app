@@ -15,7 +15,7 @@
 							<div class="lg:w-1/2 md:w-2/3 mx-auto">
 								{{--バリデーションによるエラー文の表示をregisterファイルの記述からコピー--}}
 								<x-auth-validation-errors class="mb-4" :errors="$errors" />
-								{{--route の第2引数に id をいれる--}}
+								{{--route の第2引数に id をいれる。keyはルートのURIの{}部分 例）admin/owners/{owner}/edit--}}
 								<form method="post" action="{{ route('admin.owners.update', ['owner' => $owner->id]) }}">
 									{{--更新時は POST ではなく PUT になる為、method を別で指定--}}
 									@method("put")

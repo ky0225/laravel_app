@@ -96,7 +96,10 @@ class EmployeeController extends Controller
 	public function edit($id)
 	{
 		$employee = Employee::findOrFail($id);
-		return view('owner.employees.update', compact('employee'));
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
+
+		return view('owner.employees.edit', compact('employee', 'organizations', 'bases'));
 	}
 
 	/**
