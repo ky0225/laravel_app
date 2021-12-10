@@ -68,17 +68,6 @@ class OwnersController extends Controller
 	}
 
 	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param int $id
@@ -141,6 +130,12 @@ class OwnersController extends Controller
 	public function expiredOwnerDestroy($id)
 	{
 		Owner::onlyTrashed()->findOrFail($id)->forceDelete();
-		return redirect()->route('admin.expired-owners.index');
+
+		return redirect()
+			->route('admin.expired-owners.index')
+			->with([
+				'message' => 'オーナー情報を完全に削除しました',
+				'status' => 'alert',
+			]);
 	}
 }

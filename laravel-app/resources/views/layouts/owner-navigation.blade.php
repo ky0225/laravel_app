@@ -18,6 +18,9 @@
 					<x-nav-link :href="route('owner.employees.index')" :active="request()->routeIs('owner.employees.index')">
 						社員名簿
 					</x-nav-link>
+					<x-nav-link :href="route('owner.expired-employees.index')" :active="request()->routeIs('owner.expired-employees.index')">
+						削除済み社員一覧
+					</x-nav-link>
 					{{--
 					<x-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">
 						画像管理
@@ -75,7 +78,10 @@
 				{{ __('Dashboard') }}
 			</x-responsive-nav-link>
 			<x-responsive-nav-link :href="route('owner.employees.index')" :active="request()->routeIs('owner.employees.index')">
-				 社員名簿
+				社員名簿
+			</x-responsive-nav-link>
+			<x-responsive-nav-link :href="route('owner.expired-employees.index')" :active="request()->routeIs('owner.expired-employees.index')">
+				削除済み社員一覧
 			</x-responsive-nav-link>
 			{{--
 			<x-responsive-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">

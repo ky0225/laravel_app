@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EmployeeStoreRequest;
+use App\Http\Requests\EmployeeUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -45,11 +47,25 @@ class EmployeeController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function store(Request $request)
+	public function store(EmployeeStoreRequest $request)
 	{
-		//
+		Employee::create([
+			'id' => $request->id,
+			'organization_id' => $request->organization,
+			'base_id' => $request->base,
+			'last_name' => $request->last_name,
+			'first_name' => $request->first_name,
+			'email' => $request->email,
+		]);
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '社員名簿への登録が完了しました。',
+				'status' => 'info',
+				]);
 	}
 
 	/**
@@ -67,11 +83,15 @@ class EmployeeController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		//
+		$employee = Employee::findOrFail($id);
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
+
+		return view('owner.employees.edit', compact('employee', 'organizations', 'bases'));
 	}
 
 	/**
@@ -79,21 +99,62 @@ class EmployeeController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function update(Request $request, $id)
+	public function update(EmployeeUpdateRequest $request, $id)
 	{
-		//
+		$employee = Employee::findOrFail($id);
+		$employee->id = $request->id;
+		$employee->organization_id = $request->organization;
+		$employee->base_id = $request->base;
+		$employee->last_name = $request->last_name;
+		$employee->first_name = $request->first_name;
+		$employee->email = $request->email;
+		$employee->save();
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '社員情報の更新が完了しました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($id)
 	{
-		//
+		Employee::findOrFail($id)->delete(); // ソフトデリート
+
+		return redirect()
+			->route('owner.employees.index')
+			->with([
+				'message' => '名簿から削除しました',
+				'status' => 'alert',
+			]);
 	}
+
+	public function expiredEmployeeIndex()
+	{
+		$expiredEmployees = Employee::onlyTrashed()->get();
+
+		return view('owner.expired-employees', compact('expiredEmployees'));
+	}
+
+	public function expiredEmployeeDestroy($id)
+	{
+		Employee::onlyTrashed()->findOrFail($id)->forceDelete();
+
+		return redirect()
+			->route('owner.expired-employees.index')
+			->with([
+				'message' => '名簿から完全に削除しました',
+				'status' => 'alert',
+			]);
+	}
+
 }

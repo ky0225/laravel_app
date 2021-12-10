@@ -1,7 +1,7 @@
 <x-app-layout>
 	<x-slot name="header">
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-			期限切れオーナー一覧
+			削除済みオーナー一覧
 		</h2>
 	</x-slot>
 
@@ -13,13 +13,13 @@
 						<section class="text-gray-600 body-font">
 							<div class="container md:px-5 mx-auto">
 								<x-flash-message status="session('status')"></x-flash-message>
-								<div class="lg:w-2/3 w-full mx-auto overflow-auto">
+								<div class="mt-6 lg:w-2/3 w-full mx-auto overflow-auto">
 									<table class="table-auto w-full text-left whitespace-no-wrap">
 										<thead>
 										<tr>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">名前</th>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メールアドレス</th>
-											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">期限が切れた日</th>
+											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">期限が切れた日時</th>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
 										</tr>
 										</thead>
@@ -28,7 +28,7 @@
 											<tr>
 												<td class="ma:px-4 py-3">{{ $expiredOwner->name }}</td>
 												<td class="ma:px-4 py-3">{{ $expiredOwner->email }}</td>
-												<td class="ma:px-4 py-3">{{ $expiredOwner->deleted_at->diffForHumans() }}</td>
+												<td class="ma:px-4 py-3">{{ $expiredOwner->deleted_at }}</td>
 												<form id="delete_{{ $expiredOwner->id }}" method="post" action="{{ route('admin.expired-owners.destroy', ['owner' => $expiredOwner->id]) }}">
 													{{-- ルーティングでdestroyをPOST通信するよう記述しているため、@method="delete" の記述は不要（エラー発生） --}}
 													@csrf
