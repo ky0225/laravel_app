@@ -145,9 +145,16 @@ class EmployeeController extends Controller
 		return view('owner.expired-employees', compact('expiredEmployees'));
 	}
 
-	public function expiredEmployeeDestroy()
+	public function expiredEmployeeDestroy($id)
 	{
+		Employee::onlyTrashed()->findOrFail($id)->forceDelete();
 
+		return redirect()
+			->route('owner.expired-employees.index')
+			->with([
+				'message' => '名簿から完全に削除しました',
+				'status' => 'alert',
+			]);
 	}
 
 }
