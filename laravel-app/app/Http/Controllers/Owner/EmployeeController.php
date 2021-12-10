@@ -142,7 +142,7 @@ class EmployeeController extends Controller
 	{
 		$expiredEmployees = Employee::onlyTrashed()->get();
 
-		return view('owner.expired-employees.index', compact('expiredEmployees'));
+		return view('owner.expired-employees', compact('expiredEmployees'));
 	}
 
 	public function expiredEmployeeDestroy()

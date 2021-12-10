@@ -23,6 +23,7 @@
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">姓</th>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">名</th>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メールアドレス</th>
+											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">削除した日時</th>
 											<th class="ma:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
 										</tr>
 										</thead>
@@ -35,7 +36,7 @@
 												<td class="ma:px-4 py-3">{{ $expiredEmployee->last_name }}</td>
 												<td class="ma:px-4 py-3">{{ $expiredEmployee->first_name }}</td>
 												<td class="ma:px-4 py-3">{{ $expiredEmployee->email }}</td>
-												<td class="ma:px-4 py-3">{{ $expiredEmployee->deleted_at->diffForHumans() }}</td>
+												<td class="ma:px-4 py-3">{{ $expiredEmployee->deleted_at }}</td>
 												<form id="delete_{{ $expiredEmployee->id }}" method="post" action="{{ route('owner.expired-employees.destroy', ['employee' => $expiredEmployee->id]) }}">
 													{{-- ルーティングでdestroyをPOST通信するよう記述しているため、@method="delete" の記述は不要（エラー発生） --}}
 													@csrf
