@@ -23,10 +23,6 @@ use App\Http\Controllers\Owner\EmployeeController;
 |
 */
 
-Route::get('/', function () {
-	return view('owner.welcome');
-});
-
 Route::get('/dashboard', function () {
 	return view('owner.dashboard');
 	// owners の権限をもっていたら表示される
@@ -50,13 +46,6 @@ Route::prefix('expired-employees')
 	});
 
 // 以下全て auth.php の内容を貼り付け
-Route::get('/register', [RegisteredUserController::class, 'create'])
-	->middleware('guest')
-	->name('register');
-
-Route::post('/register', [RegisteredUserController::class, 'store'])
-	->middleware('guest');
-
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 	->middleware('guest')
 	->name('login');
