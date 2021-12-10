@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\OwnersController;
+use App\Http\Controllers\Admin\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ use App\Http\Controllers\Admin\OwnersController;
 |
 */
 
-// コントローラーの読み込みとユーザー認証を設定
+// ownersコントローラーの読み込みとユーザー認証を設定
 Route::resource('owners', OwnersController::class)
 	->middleware(['auth:admin'])
 	->except(['show']);
@@ -34,6 +35,11 @@ Route::prefix('expired-owners')
 		Route::get('index', [OwnersController::class, 'expiredOwnerIndex'])->name('expired-owners.index');
 		Route::post('destroy/{owner}', [OwnersController::class, 'expiredOwnerDestroy'])->name('expired-owners.destroy');
 	});
+
+// usersコントローラーの読み込みとユーザー認証を設定
+Route::resource('users', UsersController::class)
+	->middleware(['auth:admin'])
+	->except(['show']);
 
 Route::get('/dashboard', function () {
 	return view('admin.dashboard');
