@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
 			OrganizationSeeder::class,
 			BaseSeeder::class,
 			EmployeeSeeder::class,
+			UsersSeeder::class,
 		]);
 	}
 }
