@@ -116,10 +116,17 @@ class UsersController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($id)
 	{
-		//
+		User::findOrFail($id)->delete();
+
+		return redirect()
+			->route('admin.users.index')
+			->with([
+				'message' => 'ユーザー情報を削除しました。',
+				'status' => 'alert',
+			]);
 	}
 }
