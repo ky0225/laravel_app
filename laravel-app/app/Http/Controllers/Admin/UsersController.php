@@ -129,4 +129,14 @@ class UsersController extends Controller
 				'status' => 'alert',
 			]);
 	}
+
+	public function expiredUserIndex()
+	{
+
+	}
+
+	public function  expiredUserDestroy()
+	{
+
+	}
 }

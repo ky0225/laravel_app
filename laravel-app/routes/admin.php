@@ -41,6 +41,14 @@ Route::resource('users', UsersController::class)
 	->middleware(['auth:admin'])
 	->except(['show']);
 
+// ソフトデリートしたデータ一覧の閲覧と完全削除用のルーティング
+Route::prefix('expired-users')
+	->middleware('auth:admin')
+	->group(function() {
+		Route::get('index', [UsersController::class, 'expiredUserIndex'])->name('expired-users.index');
+		Route::get('destroy/{user}', [UsersController::class, 'expiredUserDestroy'])->name('expired-users.destroy');
+	});
+
 Route::get('/dashboard', function () {
 	return view('admin.dashboard');
 })->middleware(['auth:admin'])->name('dashboard');
