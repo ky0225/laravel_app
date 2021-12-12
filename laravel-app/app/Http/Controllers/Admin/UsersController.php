@@ -94,11 +94,22 @@ class UsersController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$user = User::findOrFail($id);
+		$user->name = $request->name;
+		$user->email = $request->email;
+		$user->password = Hash::make($request->password);
+		$user->save();
+
+		return redirect()
+			->route('admin.users.index')
+			->with([
+				'message' => '閲覧ユーザーの情報が更新されました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
