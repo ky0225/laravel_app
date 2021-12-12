@@ -41,11 +41,28 @@ class UsersController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(Request $request)
 	{
-		dd($request);
+		$request->validate([
+			'name' => ['required', 'string', 'max:255'],
+			'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+			'password' => ['required', 'confirmed', Password::defaults()],
+		]);
+
+		User::create([
+			'name' => $request->name,
+			'email' => $request->email,
+			'password' => Hash::make($request->password),
+		]);
+
+		return redirect()
+			->route('admin.users.index')
+			->with([
+				'message' => '閲覧ユーザーを登録しました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
