@@ -136,8 +136,14 @@ class UsersController extends Controller
 		return view('admin.expired-users', compact('expiredUsers'));
 	}
 
-	public function  expiredUserDestroy()
+	public function expiredUserDestroy($id)
 	{
-
+		User::onlyTrashed()->findOrFail($id)->forceDelete();
+		return redirect()
+			->route('admin.expired-users.index')
+			->with([
+				'message' => '閲覧ユーザー情報を完全に削除しました。',
+				'status' => 'alert',
+			]);
 	}
 }

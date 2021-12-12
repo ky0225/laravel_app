@@ -46,7 +46,7 @@ Route::prefix('expired-users')
 	->middleware('auth:admin')
 	->group(function() {
 		Route::get('index', [UsersController::class, 'expiredUserIndex'])->name('expired-users.index');
-		Route::get('destroy/{user}', [UsersController::class, 'expiredUserDestroy'])->name('expired-users.destroy');
+		Route::post('destroy/{user}', [UsersController::class, 'expiredUserDestroy'])->name('expired-users.destroy');
 	});
 
 Route::get('/dashboard', function () {
