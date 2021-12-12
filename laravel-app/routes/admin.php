@@ -49,10 +49,6 @@ Route::prefix('expired-users')
 		Route::post('destroy/{user}', [UsersController::class, 'expiredUserDestroy'])->name('expired-users.destroy');
 	});
 
-Route::get('/dashboard', function () {
-	return view('admin.dashboard');
-})->middleware(['auth:admin'])->name('dashboard');
-
 // auth.php の内容を貼り付け
 Route::get('/register', [RegisteredUserController::class, 'create'])
 	->middleware('guest')

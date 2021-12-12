@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
 	// 各ユーザーのログイン後のルートを設定
 	public const HOME = '/dashboard';
 	public const OWNER_HOME = '/owner/dashboard';
-	public const ADMIN_HOME = '/admin/dashboard';
+	public const ADMIN_HOME = '/admin/owners';
 
 	/**
 	 * The controller namespace for the application.
