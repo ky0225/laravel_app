@@ -24,16 +24,16 @@
 										</tr>
 										</thead>
 										<tbody>
-											@foreach($expiredOwners as $expiredOwner)
+											@foreach($expiredUsers as $expiredUser)
 											<tr>
-												<td class="ma:px-4 py-3">{{ $expiredOwner->name }}</td>
-												<td class="ma:px-4 py-3">{{ $expiredOwner->email }}</td>
-												<td class="ma:px-4 py-3">{{ $expiredOwner->deleted_at }}</td>
-												<form id="delete_{{ $expiredOwner->id }}" method="post" action="{{ route('admin.expired-owners.destroy', ['owner' => $expiredOwner->id]) }}">
+												<td class="ma:px-4 py-3">{{ $expiredUser->name }}</td>
+												<td class="ma:px-4 py-3">{{ $expiredUser->email }}</td>
+												<td class="ma:px-4 py-3">{{ $expiredUser->deleted_at }}</td>
+												<form id="delete_{{ $expiredUser->id }}" method="post" action="{{ route('admin.expired-users.destroy', ['user' => $expiredUser->id]) }}">
 													{{-- ルーティングでdestroyをPOST通信するよう記述しているため、@method="delete" の記述は不要（エラー発生） --}}
 													@csrf
 													<td class="ma:px-4 py-3">
-														<a href="#" data-id="{{ $expiredOwner->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded">完全に削除</a>
+														<a href="#" data-id="{{ $expiredUser->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded">完全に削除</a>
 													</td>
 												</form>
 											</tr>

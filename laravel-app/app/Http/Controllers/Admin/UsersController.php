@@ -132,7 +132,8 @@ class UsersController extends Controller
 
 	public function expiredUserIndex()
 	{
-
+		$expiredUsers = User::onlyTrashed()->get();
+		return view('admin.expired-users', compact('expiredUsers'));
 	}
 
 	public function  expiredUserDestroy()
