@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\ListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	return view('user.index');
-})->middleware('auth:users')->name('index');
+//Route::get('/', function () {
+//	return view('user.index');
+//})->middleware('auth:users')->name('index');
+
+Route::middleware('auth:users')
+	->get('index', [ListController::class, 'index'])
+	->name('index');
 
 Route::get('/dashboard', function () {
 	return view('user.dashboard');
