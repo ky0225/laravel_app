@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Organization;
 use App\Models\Base;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Constants\Common;
 
 class Employee extends Model
 {
@@ -29,5 +30,16 @@ class Employee extends Model
 	public function Base()
 	{
 		return $this->belongsTo(Base::class);
+	}
+
+	// IDの新旧でソートするための関数。ローカルスコープ
+	public function scopeSortId($query, $sortId)
+	{
+		if ($sortId === null || $sortId === Common::SORT_ID['older']) {
+			return $query->orderBy('id', 'asc');
+		}
+		if ($sortId === Common::SORT_ID['later']) {
+			return $query->orderBy('id', 'desc');
+		}
 	}
 }
