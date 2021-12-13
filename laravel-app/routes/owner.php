@@ -45,6 +45,14 @@ Route::prefix('expired-employees')
 		Route::post('destroy/{employee}', [EmployeeController::class, 'expiredEmployeeDestroy'])->name('expired-employees.destroy');
 	});
 
+// csvインポート用
+Route::middleware('auth:owners')
+	->group(function () {
+		Route::get('employees.csv', [EmployeeController::class, 'csvIndex'])->name('employees.csvIndex');
+		Route::post('employees.csv-import', [EmployeeController::class, 'csvUpload'])->name('employees.csvUpload');
+	});
+
+
 // 以下全て auth.php の内容を貼り付け
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 	->middleware('guest')

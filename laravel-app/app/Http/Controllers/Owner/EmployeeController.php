@@ -157,4 +157,14 @@ class EmployeeController extends Controller
 			]);
 	}
 
+	public function csvIndex()
+	{
+		return view('owners.employees.csv');
+	}
+
+	public function csvUpload()
+	{
+
+	}
+
 }
