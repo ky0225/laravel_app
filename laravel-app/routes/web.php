@@ -14,16 +14,8 @@ use App\Http\Controllers\User\ListController;
 |
 */
 
-//Route::get('/', function () {
-//	return view('user.index');
-//})->middleware('auth:users')->name('index');
-
 Route::middleware('auth:users')
 	->get('/', [ListController::class, 'index'])
 	->name('index');
-
-Route::get('/dashboard', function () {
-	return view('user.dashboard');
-})->middleware(['auth:users'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
