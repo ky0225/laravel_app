@@ -20,6 +20,7 @@ class CreateEmployeesTable extends Migration
 			$table->string('last_name');
 			$table->string('first_name');
 			$table->string('email')->unique('email');
+			$table->timestamp('deleted_at')->nullable('true');
 			$table->timestamps();
 		});
 	}

@@ -28,7 +28,8 @@ class EmployeeSeeder extends Seeder
 				'last_name' => 'Test',
 				'first_name' => 'Bob',
 				'email' => 'test2@test.com',
-			],			[
+			],
+			[
 				'organization_id' => '3',
 				'base_id' => '3',
 				'last_name' => 'Test',

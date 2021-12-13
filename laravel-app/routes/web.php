@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\ListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-	return view('user.welcome');
-});
-
-Route::get('/dashboard', function () {
-	return view('user.dashboard');
-})->middleware(['auth:users'])->name('dashboard');
+Route::middleware('auth:users')
+	->get('/', [ListController::class, 'index'])
+	->name('index');
 
 require __DIR__ . '/auth.php';
