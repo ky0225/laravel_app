@@ -19,7 +19,7 @@ use App\Http\Controllers\User\ListController;
 //})->middleware('auth:users')->name('index');
 
 Route::middleware('auth:users')
-	->get('index', [ListController::class, 'index'])
+	->get('/index', [ListController::class, 'index'])
 	->name('index');
 
 Route::get('/dashboard', function () {

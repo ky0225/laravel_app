@@ -33,7 +33,7 @@ class UsersSeeder extends Seeder
 				'email' => 'test3@test.com',
 				'password' => Hash::make('test0225'),
 				'created_at' => '2021/1/1 11:11:11',
-			],
+		],
 		]);
 	}
 }
