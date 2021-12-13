@@ -20,6 +20,13 @@
 									<div class="-m-2">
 										<div class="p-2 w-1/2 mx-auto">
 											<div class="relative">
+												CSVファイルで一括登録する
+												<label for="customFile" class="custom-file-label" data-browse="参照"></label>
+												<input type="file" id="customFile" name="csv" class="custom-file-input">
+											</div>
+										</div>
+										<div class="p-2 w-1/2 mx-auto">
+											<div class="relative">
 												<label for="id" class="leading-7 text-sm text-gray-600">社員ID</label>
 												<input type="text" id="id" name="id" value="{{ old('id') }}" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 											</div>
