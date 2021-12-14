@@ -1,70 +1,30 @@
-{{--<form action="" method="get" enctype="multipart/form-data">--}}
-{{--	{{ csrf_field() }}--}}
-{{--	<div class="row">--}}
-{{--		<label class="col-1 text-right" for="form-file-1">File:</label>--}}
-{{--		<div class="col-11">--}}
-{{--			<div class="custom-file">--}}
-{{--				<input type="file" name="csv" class="custom-file-input" id="customFile">--}}
-{{--				<label class="custom-file-label" for="customFile" data-browse="参照"></label>--}}
-{{--			</div>--}}
-{{--		</div>--}}
-{{--	</div>--}}
-{{--	<button type="submit" class="btn btn-success btn-block">送信</button>--}}
-{{--</form>--}}
-
-	<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>CSVからDBインポートサンプル</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 </head>
-
 <body>
+<div class="container">
+	<div class="content">
+		<h4>CSVファイルを選択してください</h4>
+		<div class="row">
+			<div class="col-md-6">
+				■手順<br>
+				1. CSVで保存します。<br>
+				2. ファイルを選択し読み込んでください。<br>
+			</div>
+		</div>
 
-<div class="upload">
-	<p>DBに追加したいCSVデータを選択してください。</p>
-	<form action="/owner/csv/upload/" method="post" enctype="multipart/form-data">
-		@csrf
-		<input type="file" name="csvdata" />
+		<form role="form" method="post" action="/owner/csv/import" enctype="multipart/form-data">
+			{{ csrf_field() }}
+			<input type="file" name="csv_file" id="csv_file">
+			<div class="form-group">
+				<button type="button" onclick="location.href='{{ route('owner.employees.index') }}'">一覧に戻る</button>
+				<button type="submit" class="btn btn-default btn-success">保存</button>
+			</div>
+		</form>
 
-		<label for="customFile" class="custom-file-label" data-browse="参照"></label>
-		<input type="file" id="customFile" name="csv" class="custom-file-input">
-
-		<button>送信</button>
-	</form>
+	</div>
 </div>
-
-<div class="contents">
-	<p>{{ $cnt }}件登録しました。</p>
-	<table>
-		<tr>
-			<th>社員ID</th>
-			<th>所属</th>
-			<th>拠点</th>
-			<th>姓</th>
-			<th>名</th>
-			<th>メールアドレス</th>
-			<th>created_at</th>
-			<th>updated_at</th>
-		</tr>
-
-		<!-- DBから取得したデータを一覧表示する -->
-		@foreach ($data as $val)
-			<tr>
-				<td>{{ $val->id }}</td>
-				<td>{{ $val->organization_id }}</td>
-				<td>{{ $val->base_id }}</td>
-				<td>{{ $val->last_name }}</td>
-				<td>{{ $val->first_name }}</td>
-				<td>{{ $val->email }}</td>
-				<td>{{ $val->created_at }}</td>
-				<td>{{ $val->updated_at }}</td>
-			</tr>
-		@endforeach
-	</table>
-</div>
-
 </body>
 </html>

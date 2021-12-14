@@ -11,6 +11,7 @@ use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use App\Http\Controllers\Owner\ImageController;
 use App\Http\Controllers\Owner\EmployeeController;
+use App\Http\Controllers\Owner\CSVimportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,16 +47,8 @@ Route::prefix('expired-employees')
 	});
 
 // csvインポート用
-//Route::prefix('csv')
-//	->middleware('auth:owners')
-//	->group(function () {
-//		Route::get('index', [EmployeeController::class, 'csvIndex'])->name('csv.index');
-//		Route::post('upload', [EmployeeController::class, 'csvUpload'])->name('csv.upload');
-//	});
-
-Route::get('csv', 'App\Http\Controllers\Owner\csvController@index')->name('csv');
-Route::post('csv/upload', 'App\Http\Controllers\Owner\csvController@upload');
-
+Route::get('csv/index', [CSVimportsController::class, 'index'])->name('csv.index');
+Route::post('csv/import', [CSVimportsController::class, 'import']);
 
 // 以下全て auth.php の内容を貼り付け
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])

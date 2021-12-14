@@ -18,15 +18,6 @@
 								<form method="post" action="{{ route('owner.employees.store') }}">
 									@csrf
 									<div class="-m-2">
-										{{--
-										<div class="p-2 w-1/2 mx-auto">
-											<div class="relative">
-												CSVファイルで一括登録する
-												<label for="customFile" class="custom-file-label" data-browse="参照"></label>
-												<input type="file" id="customFile" name="csv" class="custom-file-input">
-											</div>
-										</div>
-										--}}
 										<div class="p-2 w-1/2 mx-auto">
 											<div class="relative">
 												<label for="id" class="leading-7 text-sm text-gray-600">社員ID</label>
