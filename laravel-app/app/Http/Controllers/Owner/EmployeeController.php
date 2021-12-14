@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
+use Illuminate\Support\Facades\DB;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class EmployeeController extends Controller
 {
@@ -138,6 +140,7 @@ class EmployeeController extends Controller
 			]);
 	}
 
+	// ソフトデリートされた一覧の表示
 	public function expiredEmployeeIndex()
 	{
 		$expiredEmployees = Employee::onlyTrashed()->get();
@@ -145,6 +148,7 @@ class EmployeeController extends Controller
 		return view('owner.expired-employees', compact('expiredEmployees'));
 	}
 
+  // 完全削除するための処理
 	public function expiredEmployeeDestroy($id)
 	{
 		Employee::onlyTrashed()->findOrFail($id)->forceDelete();

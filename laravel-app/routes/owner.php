@@ -11,6 +11,7 @@ use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use App\Http\Controllers\Owner\ImageController;
 use App\Http\Controllers\Owner\EmployeeController;
+use App\Http\Controllers\Owner\CSVimportsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::prefix('expired-employees')
 		Route::get('index', [EmployeeController::class, 'expiredEmployeeIndex'])->name('expired-employees.index');
 		Route::post('destroy/{employee}', [EmployeeController::class, 'expiredEmployeeDestroy'])->name('expired-employees.destroy');
 	});
+
+// csvインポート用
+Route::get('csv/index', [CSVimportsController::class, 'index'])->name('csv.index');
+Route::post('csv/import', [CSVimportsController::class, 'import']);
 
 // 以下全て auth.php の内容を貼り付け
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
