@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
+use App\Models\Image;
 use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -26,10 +27,11 @@ class EmployeeController extends Controller
 
 	public function index()
 	{
+		$images = Image::select('filename', 'filepath')->get();
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
 			->orderBy('id', 'asc')->paginate(50);
 
-		return view('owner.employees.index', compact('employees'));
+		return view('owner.employees.index', compact('images', 'employees'));
 	}
 
 	/**

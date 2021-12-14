@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Owner; // Eloquent でデータベースを触る場合
 use Illuminate\Support\Facades\DB; // QueryBuilder でデータベースを触る場合

@@ -22,84 +22,30 @@ class ImageController extends Controller
 		$this->middleware('auth:owners');
 	}
 
-	public function index()
-	{
-		$images = Image::where('id', '1')
-			->orderBy('created_at', 'desc')
-			->paginate(20);
-
-		return view('owner.images.index', compact('images'));
+	function show(){
+		return view("owner.images.upload_form");
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-	 */
-	public function create()
-	{
-		return view('owner.images.create');
-	}
+	function upload(Request $request){
+		$request->validate([
+			// viewファイル内の type="file" name="image" と同じ値
+			'filename' => ['file', 'image', 'mimes:png,jpeg'],
+		]);
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
-	 */
-	public function store(UploadImageRequest $request)
-	{
-		$imageFile = $request->image;
-		if (isset($imageFile) && $imageFile->isValid()) {
-			// 第一引数で保存先を指定。putFile はデータ名も作ってくれる
-			Storage::putFile('public/images', $imageFile);
+		$uploadImage = $request->file('image');
+
+		if ($uploadImage) {
+			// アップロードされた画像を保存
+			$path = $uploadImage->store('uploads', 'public');
+			// 保存に成功したらDBに記録
+			if ($path) {
+				Image::create([
+					'filename' => $uploadImage->getClientOriginalName(),
+					'filepath' => $path,
+				]);
+			}
 		}
-
-		return redirect()->route('owner.images.index');
+		return redirect()->route('owner.images.form');
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
 }

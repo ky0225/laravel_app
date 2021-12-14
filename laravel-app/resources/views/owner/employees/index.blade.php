@@ -13,6 +13,14 @@
 					<section class="text-gray-600 body-font">
 						<div class="container md:px-5 mx-auto">
 							<x-flash-message status="session('status')"></x-flash-message>
+							<div>
+								@foreach($images as $image)
+									<div style="width: 18rem; float:left; margin: 16px;">
+										<img src="{{ Storage::url($image->filepath) }}" style="width:100%;"/>
+										<p>{{ $image->filename }}</p>
+									</div>
+								@endforeach
+							</div>
 							<div class="flex justify-end mb-4 mt-4">
 								<button onclick="location.href='{{ route('owner.employees.create') }}'" class="text-white bg-indigo-500 border-0 mr-4 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録する</button>
 								<button onclick="location.href='{{ route('owner.csv.index') }}'" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-md">CSVファイルで一括登録する</button>
