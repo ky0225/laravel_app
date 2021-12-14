@@ -46,12 +46,15 @@ Route::prefix('expired-employees')
 	});
 
 // csvインポート用
-Route::prefix('csv')
-	->middleware('auth:owners')
-	->group(function () {
-		Route::get('index', [EmployeeController::class, 'csvIndex'])->name('csv.index');
-		Route::post('upload', [EmployeeController::class, 'csvUpload'])->name('csv.upload');
-	});
+//Route::prefix('csv')
+//	->middleware('auth:owners')
+//	->group(function () {
+//		Route::get('index', [EmployeeController::class, 'csvIndex'])->name('csv.index');
+//		Route::post('upload', [EmployeeController::class, 'csvUpload'])->name('csv.upload');
+//	});
+
+Route::get('csv', 'App\Http\Controllers\Owner\csvController@index')->name('csv');
+Route::post('csv/upload', 'App\Http\Controllers\Owner\csvController@upload');
 
 
 // 以下全て auth.php の内容を貼り付け
