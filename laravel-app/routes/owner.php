@@ -46,10 +46,11 @@ Route::prefix('expired-employees')
 	});
 
 // csvインポート用
-Route::middleware('auth:owners')
+Route::prefix('csv')
+	->middleware('auth:owners')
 	->group(function () {
-		Route::get('employees.csv', [EmployeeController::class, 'csvIndex'])->name('employees.csvIndex');
-		Route::post('employees.csv-import', [EmployeeController::class, 'csvUpload'])->name('employees.csvUpload');
+		Route::get('index', [EmployeeController::class, 'csvIndex'])->name('csv.index');
+		Route::post('upload', [EmployeeController::class, 'csvUpload'])->name('csv.upload');
 	});
 
 

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
+use Illuminate\Support\Facades\DB;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class EmployeeController extends Controller
 {
@@ -138,6 +140,7 @@ class EmployeeController extends Controller
 			]);
 	}
 
+	// ソフトデリートされた一覧の表示
 	public function expiredEmployeeIndex()
 	{
 		$expiredEmployees = Employee::onlyTrashed()->get();
@@ -145,6 +148,7 @@ class EmployeeController extends Controller
 		return view('owner.expired-employees', compact('expiredEmployees'));
 	}
 
+  // 完全削除するための処理
 	public function expiredEmployeeDestroy($id)
 	{
 		Employee::onlyTrashed()->findOrFail($id)->forceDelete();
@@ -157,14 +161,46 @@ class EmployeeController extends Controller
 			]);
 	}
 
-	public function csvIndex()
+	// CSV一覧表示処理
+	public function csvIndex(Request $request)
 	{
-		return view('owners.employees.csv');
+		$data = Employee::select('id', 'organizatEion_id', 'base_id', 'last_name', 'first_name', 'email')->get();
+		$count = $request->input('count'); // 何件登録したか結果を返す
+
+		return view('owner.csv', compact('data', 'count'));
 	}
 
-	public function csvUpload()
+	// CSVアップロード〜DBインポート処理
+	public function csvUpload(Request $request)
 	{
+		// 一旦アップロードされたCSVファイルを受け取り保存する
+		$uploadFile = $request->file('csvdata'); // inputのnameはcsvdataとする
+		$orgName = date('YmdHis') . "_" . $request->file('csvdata')->getClientOriginalName();
+		$spath = storage_path('app\\');
+		$path = $spath.$request->file('csvdata')->storeAs('', $orgName);
 
+		// CSVファイルを読み込む
+		$result = (new FastExcel)->configureCsv(',')->importSheets($path);
+
+		// DB登録処理
+		$count = 0; // 登録件数確認用
+		foreach ($result as $row) {
+			foreach ($row as $item) {
+				// CSV内データとテーブルのカラムを紐付ける（左側カラム名、右側CSV１行目の項目名）
+				$param = [
+					'id' => '"' . $item->id . '"',
+					'organization_id' => '"' . $item->organization_id . '"',
+					'base_id' => '"' . $item->base_id . '"',
+					'last_name' => '"' . $item->last_name . '"',
+					'first_name' => '"' . $item->first_name . '"',
+					'email' => '"' . $item->email . '"',
+				];
+				// DBにinsertする（更新フラグなどに対応するため１行ずつinsertする）
+				DB::table('employees')->insert($param);
+				$count++;
+			}
+		}
+		return redirect()->route('owner.csv.index', compact('count'));
 	}
 
 }
