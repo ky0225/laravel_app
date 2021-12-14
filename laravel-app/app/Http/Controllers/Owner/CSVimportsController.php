@@ -20,7 +20,7 @@ class CSVimportsController extends Controller
 
 	public function index()
 	{
-		return view('csv.index');
+		return view('owner.csv.index');
 	}
 
 	/**
