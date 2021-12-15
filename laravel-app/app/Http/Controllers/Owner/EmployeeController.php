@@ -102,15 +102,15 @@ class EmployeeController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
+	 * @param \Illuminate\Http\Request $requestData
 	 * @param int $id
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function update(EmployeeUpdateRequest $request, $id)
+	public function update(EmployeeUpdateRequest $requestData, $id, UploadImageRequest $requestImage)
 	{
-		$imageFile = $request->image;
+		$imageFile = $requestImage->image;
 		if (!is_null($imageFile) && $imageFile->isValid()) {
-			// storage > app > public > images ディレクトリにファイル名を生成して格納する
+			// putFile で storage > app > public > images ディレクトリにファイル名を生成して格納する
 			// Storage::putFile('public/images', $imageFile); リサイズなしの場合はこれでOK
 
 			// ランダムなファイル名を生成
@@ -126,12 +126,12 @@ class EmployeeController extends Controller
 		}
 
 		$employee = Employee::findOrFail($id);
-		$employee->id = $request->id;
-		$employee->organization_id = $request->organization;
-		$employee->base_id = $request->base;
-		$employee->last_name = $request->last_name;
-		$employee->first_name = $request->first_name;
-		$employee->email = $request->email;
+		$employee->id = $requestData->id;
+		$employee->organization_id = $requestData->organization;
+		$employee->base_id = $requestData->base;
+		$employee->last_name = $requestData->last_name;
+		$employee->first_name = $requestData->first_name;
+		$employee->email = $requestData->email;
 		$employee->save();
 
 		return redirect()
