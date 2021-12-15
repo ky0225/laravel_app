@@ -12,6 +12,7 @@ use App\Models\Organization;
 use App\Models\Base;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
+use InterventionImage;
 
 class EmployeeController extends Controller
 {
@@ -110,7 +111,18 @@ class EmployeeController extends Controller
 		$imageFile = $request->image;
 		if (!is_null($imageFile) && $imageFile->isValid()) {
 			// storage > app > public > images ディレクトリにファイル名を生成して格納する
-			Storage::putFile('public/images', $imageFile);
+			// Storage::putFile('public/images', $imageFile); リサイズなしの場合はこれでOK
+
+			// ランダムなファイル名を生成
+			$fileName = uniqid(rand() . '_');
+			// 拡張子を取得
+			$extension = $imageFile->extension();
+			// ファイル名と拡張子を足して、正規のファイル名を作成
+			$fileNameToImage = $fileName . '.' . $extension;
+			// InterventionImage によってリサイズ、エンコード
+			$resizedImage = InterventionImage::make($imageFile)->resize(1920, 1080)->encode();
+			// 第1引数にフォルダ名とファイル名、 第2引数に指定の画像
+			Storage::put('public/images/' . $fileNameToImage, $resizedImage);
 		}
 
 		$employee = Employee::findOrFail($id);
