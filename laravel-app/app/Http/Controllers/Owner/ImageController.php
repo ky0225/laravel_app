@@ -22,7 +22,9 @@ class ImageController extends Controller
 
 	public function index()
 	{
-		$images = Image::all();
+		$images = Image::select('id', 'filename', 'title')
+			->orderBy('updated_at', 'desc')
+			->get();
 
 		return view('owner.images.index', compact('images'));
 	}
@@ -77,11 +79,12 @@ class ImageController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		//
+		$image = Image::findOrFail($id);
+		return view('owner.images.edit', compact('image'));
 	}
 
 	/**
@@ -89,11 +92,24 @@ class ImageController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$request->validate([
+			'title' => ['string', 'max:50'],
+		]);
+
+		$image = Image::findOrFail($id);
+		$image->title = $request->title;
+		$image->save();
+
+		return redirect()
+			->route('owner.images.index')
+			->with([
+				'message' => '画像情報が更新されました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
