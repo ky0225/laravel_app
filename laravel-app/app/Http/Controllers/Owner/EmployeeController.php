@@ -11,6 +11,7 @@ use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
 use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
@@ -106,6 +107,12 @@ class EmployeeController extends Controller
 	 */
 	public function update(EmployeeUpdateRequest $request, $id)
 	{
+		$imageFile = $request->image;
+		if (!is_null($imageFile) && $imageFile->isValid()) {
+			// storage > app > public > images ディレクトリにファイル名を生成して格納する
+			Storage::putFile('public/images', $imageFile);
+		}
+
 		$employee = Employee::findOrFail($id);
 		$employee->id = $request->id;
 		$employee->organization_id = $request->organization;
