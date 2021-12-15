@@ -44,7 +44,7 @@ class ImageController extends Controller
 	 */
 	public function store(UploadImageRequest $request)
 	{
-		//
+		
 	}
 
 	/**
