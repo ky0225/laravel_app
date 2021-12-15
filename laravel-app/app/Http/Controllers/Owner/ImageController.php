@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Image;
+use App\Http\Requests\UploadImageRequest;
 
 class ImageController extends Controller
 {
@@ -28,11 +29,11 @@ class ImageController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function create()
 	{
-		//
+		return view('owner.images.create');
 	}
 
 	/**
@@ -41,7 +42,7 @@ class ImageController extends Controller
 	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(UploadImageRequest $request)
 	{
 		//
 	}
