@@ -20,9 +20,9 @@ class ImageController extends Controller
 
 	public function index()
 	{
-		$images = Image::all()->orderBy('created_at', 'asc')->paginate(20);
+		$images = Image::all();
 
-		return view('owners.images.index', compact('images'));
+		return view('owner.images.index', compact('images'));
 	}
 
 	/**

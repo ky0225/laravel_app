@@ -29,11 +29,10 @@ class EmployeeController extends Controller
 
 	public function index()
 	{
-		$images = Image::select('filename', 'filepath')->get();
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
 			->orderBy('id', 'asc')->paginate(50);
 
-		return view('owner.employees.index', compact('images', 'employees'));
+		return view('owner.employees.index', compact('employees'));
 	}
 
 	/**
