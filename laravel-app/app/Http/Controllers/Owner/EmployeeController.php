@@ -109,14 +109,7 @@ class EmployeeController extends Controller
 	 */
 	public function update(EmployeeUpdateRequest $requestData, $id, UploadImageRequest $requestImage)
 	{
-		$imageFile = $requestImage->image;
-		if (!is_null($imageFile) && $imageFile->isValid()) {
-			// putFile で storage > app > public > images ディレクトリにファイル名を生成して格納する
-			// Storage::putFile('public/images', $imageFile); リサイズなしの場合はこれでOK
-
-			$fileNameToImage = ImageService::upload($imageFile, 'images');
-		}
-
+		// employeesテーブルへの保存
 		$employee = Employee::findOrFail($id);
 		$employee->id = $requestData->id;
 		$employee->organization_id = $requestData->organization;
@@ -125,6 +118,20 @@ class EmployeeController extends Controller
 		$employee->first_name = $requestData->first_name;
 		$employee->email = $requestData->email;
 		$employee->save();
+
+		// imagesテーブルへの保存
+		$imageFile = $requestImage->image;
+		if (!is_null($imageFile) && $imageFile->isValid()) {
+			// putFile で storage > app > public > images ディレクトリにファイル名を生成して格納する
+			// Storage::putFile('public/images', $imageFile); リサイズなしの場合はこれでOK
+
+			$fileNameToImage = ImageService::upload($imageFile, 'images');
+		}
+		$image = Image::findOrFail($id);
+		if (!is_null($imageFile) && $imageFile->isValid()) {
+			$image->filename = $fileNameToImage;
+			$image->save();
+		}
 
 		return redirect()
 			->route('owner.employees.index')
