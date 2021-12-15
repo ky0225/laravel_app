@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
+use App\Http\Requests\UploadImageRequest;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
 use App\Models\Image;
-use Illuminate\Support\Facades\DB;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class EmployeeController extends Controller
 {
