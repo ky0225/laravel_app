@@ -13,14 +13,6 @@
 					<section class="text-gray-600 body-font">
 						<div class="container md:px-5 mx-auto">
 							<x-flash-message status="session('status')"></x-flash-message>
-							<div>
-								@foreach($images as $image)
-									<div style="width: 18rem; float:left; margin: 16px;">
-										<img src="{{ Storage::url($image->filepath) }}" style="width:100%;"/>
-										<p>{{ $image->filename }}</p>
-									</div>
-								@endforeach
-							</div>
 							<div class="flex justify-end mb-4 mt-4">
 								<button onclick="location.href='{{ route('owner.employees.create') }}'" class="text-white bg-indigo-500 border-0 mr-4 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">新規登録する</button>
 								<button onclick="location.href='{{ route('owner.csv.index') }}'" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-md">CSVファイルで一括登録する</button>
@@ -37,6 +29,7 @@
 										<th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メールアドレス</th>
 										<th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
 										<th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
+										<th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
 									</tr>
 									</thead>
 									<tbody>
@@ -48,6 +41,9 @@
 											<td class="md:px-4 py-3">{{ $employee->last_name }}</td>
 											<td class="md:px-4 py-3">{{ $employee->first_name }}</td>
 											<td class="md:px-4 py-3">{{ $employee->email }}</td>
+											<div class="w-32">
+												<x-thumbnail></x-thumbnail>
+											</div>
 											<td class="md:px-4 py-3">
 												<button onclick="location.href='{{ route('owner.employees.edit', ['employee' => $employee->id]) }}'" class="text-white bg-indigo-400 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-500 rounded">編集</button>
 											</td>
