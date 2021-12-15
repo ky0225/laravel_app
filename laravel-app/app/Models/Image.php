@@ -13,9 +13,4 @@ class Image extends Model
 		protected $fillable = [
 			'filename',
 		];
-
-		public function owner()
-		{
-			return $this->belongsTo(Owner::class);
-		}
 }
