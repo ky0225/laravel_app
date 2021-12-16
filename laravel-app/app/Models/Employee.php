@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Organization;
 use App\Models\Base;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Employee extends Model
@@ -19,6 +20,7 @@ class Employee extends Model
 		'last_name',
 		'first_name',
 		'email',
+		'image',
 	];
 
 	public function organization()
@@ -26,9 +28,14 @@ class Employee extends Model
 		return $this->belongsTo(Organization::class);
 	}
 
-	public function Base()
+	public function base()
 	{
 		return $this->belongsTo(Base::class);
+	}
+
+	public function image()
+	{
+		return $this->hasOne(Image::class);
 	}
 
 }

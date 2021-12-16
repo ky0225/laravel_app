@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Services\ImageService;
+use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Http\Requests\UploadImageRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -15,8 +16,6 @@ class ImageController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-
-	// コントローラーでもユーザー認証を設定する
 	public function __construct()
 	{
 		$this->middleware('auth:owners');
@@ -24,9 +23,9 @@ class ImageController extends Controller
 
 	public function index()
 	{
-		$images = Image::where('id', '1')
-			->orderBy('created_at', 'desc')
-			->paginate(20);
+		$images = Image::select('id', 'filename', 'title')
+			->orderBy('updated_at', 'desc')
+			->get();
 
 		return view('owner.images.index', compact('images'));
 	}
@@ -45,17 +44,25 @@ class ImageController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(UploadImageRequest $request)
 	{
-		$imageFile = $request->image;
-		if (isset($imageFile) && $imageFile->isValid()) {
-			// 第一引数で保存先を指定。putFile はデータ名も作ってくれる
-			Storage::putFile('public/images', $imageFile);
+		$imageFiles = $request->file('files');
+		if (!is_null($imageFiles)){
+			foreach ($imageFiles as $imageFile) {
+				$fileNameToImage = ImageService::upload($imageFile, 'images');
+				Image::create([
+					'filename' => $fileNameToImage,
+				]);
+			}
 		}
-
-		return redirect()->route('owner.images.index');
+		return redirect()
+			->route('owner.images.index')
+			->with([
+				'message' => '画像の登録が完了しました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
@@ -73,11 +80,12 @@ class ImageController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
 	 */
 	public function edit($id)
 	{
-		//
+		$image = Image::findOrFail($id);
+		return view('owner.images.edit', compact('image'));
 	}
 
 	/**
@@ -85,21 +93,49 @@ class ImageController extends Controller
 	 *
 	 * @param \Illuminate\Http\Request $request
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$request->validate([
+			'title' => ['string', 'max:50'],
+		]);
+
+		$image = Image::findOrFail($id);
+		$image->title = $request->title;
+		$image->save();
+
+		return redirect()
+			->route('owner.images.index')
+			->with([
+				'message' => '画像情報が更新されました。',
+				'status' => 'info',
+			]);
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($id)
 	{
-		//
+		// storageフォルダから削除
+		$image = Image::findOrFail($id);
+		$filePath = 'public/images/' . $image->filename;
+		if (Storage::exists($filePath)) {
+			Storage::delete($filePath);
+		}
+
+		// DBから削除
+		Image::findOrFail($id)->delete();
+
+		return redirect()
+			->route('owner.images.index')
+			->with([
+				'message' => '画像を削除しました。',
+				'status' => 'alert',
+			]);
 	}
 }

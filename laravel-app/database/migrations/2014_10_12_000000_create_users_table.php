@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
 			$table->string('email')->unique();
 			$table->timestamp('email_verified_at')->nullable();
 			$table->string('password');
-			$table->timestamp('deleted_at')->nullable('true');
+			$table->softDeletes(); // ソフトデリートを保存する
 			$table->rememberToken();
 			$table->timestamps();
 		});

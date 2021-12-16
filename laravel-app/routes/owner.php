@@ -24,15 +24,6 @@ use App\Http\Controllers\Owner\CSVimportsController;
 |
 */
 
-Route::get('/dashboard', function () {
-	return view('owner.dashboard');
-	// owners の権限をもっていたら表示される
-})->middleware(['auth:owners'])->name('dashboard');
-
-Route::resource('images', ImageController::class)
-	->middleware(['auth:owners'])
-	->except(['show']);
-
 // Employee のルーティング
 Route::resource('employees', EmployeeController::class)
 	->middleware(['auth:owners'])
@@ -49,6 +40,11 @@ Route::prefix('expired-employees')
 // csvインポート用
 Route::get('csv/index', [CSVimportsController::class, 'index'])->name('csv.index');
 Route::post('csv/import', [CSVimportsController::class, 'import']);
+
+// 画像アップロード用
+Route::resource('images', ImageController::class)
+	->middleware('auth:owners')
+	->except('show');
 
 // 以下全て auth.php の内容を貼り付け
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])

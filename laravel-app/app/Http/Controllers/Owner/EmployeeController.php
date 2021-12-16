@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
-use Illuminate\Support\Facades\DB;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class EmployeeController extends Controller
 {
@@ -99,19 +98,20 @@ class EmployeeController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param \Illuminate\Http\Request $request
+	 * @param \Illuminate\Http\Request $requestData
 	 * @param int $id
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function update(EmployeeUpdateRequest $request, $id)
+	public function update(EmployeeUpdateRequest $requestData, $id)
 	{
+		// employeesテーブルへの保存
 		$employee = Employee::findOrFail($id);
-		$employee->id = $request->id;
-		$employee->organization_id = $request->organization;
-		$employee->base_id = $request->base;
-		$employee->last_name = $request->last_name;
-		$employee->first_name = $request->first_name;
-		$employee->email = $request->email;
+		$employee->id = $requestData->id;
+		$employee->organization_id = $requestData->organization;
+		$employee->base_id = $requestData->base;
+		$employee->last_name = $requestData->last_name;
+		$employee->first_name = $requestData->first_name;
+		$employee->email = $requestData->email;
 		$employee->save();
 
 		return redirect()

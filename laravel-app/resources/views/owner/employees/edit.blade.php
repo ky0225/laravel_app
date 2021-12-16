@@ -15,7 +15,8 @@
 							<div class="lg:w-1/2 md:w-2/3 mx-auto">
 								{{--バリデーションによるエラー文の表示をregisterファイルの記述からコピー--}}
 								<x-auth-validation-errors class="mb-4" :errors="$errors"></x-auth-validation-errors>
-								<form method="post" action="{{ route('owner.employees.update', ['employee' => $employee->id]) }}">
+								{{--画像を保存するためには enctype の設定が必要--}}
+								<form method="post" action="{{ route('owner.employees.update', ['employee' => $employee->id]) }}" enctype="multipart/form-data">
 									@method("put")
 									@csrf
 									<div class="-m-2">

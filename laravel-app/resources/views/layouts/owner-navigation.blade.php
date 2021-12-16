@@ -18,11 +18,9 @@
 					<x-nav-link :href="route('owner.expired-employees.index')" :active="request()->routeIs('owner.expired-employees.index')">
 						削除済み社員一覧
 					</x-nav-link>
-					{{--
 					<x-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">
 						画像管理
 					</x-nav-link>
-					--}}
 				</div>
 			</div>
 
@@ -77,11 +75,9 @@
 			<x-responsive-nav-link :href="route('owner.expired-employees.index')" :active="request()->routeIs('owner.expired-employees.index')">
 				削除済み社員一覧
 			</x-responsive-nav-link>
-			{{--
 			<x-responsive-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">
 				画像管理
 			</x-responsive-nav-link>
-			--}}
 		</div>
 
 		<!-- Responsive Settings Options -->
