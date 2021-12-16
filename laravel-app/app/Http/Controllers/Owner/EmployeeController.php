@@ -5,15 +5,10 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
-use App\Http\Requests\UploadImageRequest;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
 use App\Models\Base;
-use App\Models\Image;
-use Illuminate\Support\Facades\Storage;
-use InterventionImage;
-use App\Services\ImageService;
 
 class EmployeeController extends Controller
 {
@@ -106,7 +101,7 @@ class EmployeeController extends Controller
 	 * @param int $id
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
-	public function update(EmployeeUpdateRequest $requestData, $id, UploadImageRequest $requestImage)
+	public function update(EmployeeUpdateRequest $requestData, $id)
 	{
 		// employeesテーブルへの保存
 		$employee = Employee::findOrFail($id);
@@ -117,20 +112,6 @@ class EmployeeController extends Controller
 		$employee->first_name = $requestData->first_name;
 		$employee->email = $requestData->email;
 		$employee->save();
-
-		// imagesテーブルへの保存
-		$imageFile = $requestImage->image;
-		if (!is_null($imageFile) && $imageFile->isValid()) {
-			// putFile で storage > app > public > images ディレクトリにファイル名を生成して格納する
-			// Storage::putFile('public/images', $imageFile); リサイズなしの場合はこれでOK
-
-			$fileNameToImage = ImageService::upload($imageFile, 'images');
-		}
-		$image = Image::findOrFail($id);
-		if (!is_null($imageFile) && $imageFile->isValid()) {
-			$image->filename = $fileNameToImage;
-			$image->save();
-		}
 
 		return redirect()
 			->route('owner.employees.index')

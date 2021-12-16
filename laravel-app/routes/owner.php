@@ -24,10 +24,6 @@ use App\Http\Controllers\Owner\CSVimportsController;
 |
 */
 
-//Route::resource('images', ImageController::class)
-//	->middleware(['auth:owners'])
-//	->except(['show']);
-
 // Employee のルーティング
 Route::resource('employees', EmployeeController::class)
 	->middleware(['auth:owners'])
