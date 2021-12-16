@@ -12,4 +12,14 @@ class Common
 		'older' => self::ID_OLDER,
 		'later' => self::ID_LATER,
 	];
+
+	const PREFECTURE_TOKYO = '0';
+	const PREFECTURE_FUKUOKA = '1';
+	const PREFECTURE_SAGA = '2';
+
+	const SORT_PREFECTURE = [
+		'tokyo' => self::PREFECTURE_TOKYO,
+		'fukuoka' => self::PREFECTURE_FUKUOKA,
+		'saga' => self::PREFECTURE_SAGA,
+	];
 }

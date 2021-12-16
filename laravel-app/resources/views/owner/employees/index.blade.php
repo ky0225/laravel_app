@@ -22,7 +22,6 @@
 								</option>
 							</select>
 						</div>
-						<div>表示件数</div>
 					</div>
 				</form>
 			</div>
