@@ -20,7 +20,6 @@ class CreateEmployeesTable extends Migration
 			$table->string('last_name');
 			$table->string('first_name');
 			$table->string('email')->unique('email');
-			$table->foreignId('image')->nullable('true')->constrained('images');
 			$table->softDeletes(); // ソフトデリートを保存する
 			$table->timestamps();
 		});

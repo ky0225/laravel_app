@@ -31,6 +31,7 @@ class EmployeeStoreRequest extends FormRequest
 			'last_name' => ['required', 'string', 'max:10'],
 			'first_name' => ['required', 'string', 'max:10'],
 			'email' => ['required', 'string', 'email', 'unique:employees'],
+			'image1' => ['nullable', 'exists:images,id'],
 		];
 	}
 }

@@ -25,7 +25,7 @@ class EmployeeController extends Controller
 
 	public function index()
 	{
-		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
+		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email', 'image')
 			->orderBy('id', 'asc')->paginate(50);
 
 		return view('owner.employees.index', compact('employees'));
@@ -62,6 +62,7 @@ class EmployeeController extends Controller
 			'last_name' => $request->last_name,
 			'first_name' => $request->first_name,
 			'email' => $request->email,
+			'image' => $request->image1,
 		]);
 
 		return redirect()
