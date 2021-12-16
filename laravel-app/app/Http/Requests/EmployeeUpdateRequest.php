@@ -34,7 +34,6 @@ class EmployeeUpdateRequest extends FormRequest
 			'base_id' => ['exists:bases,id'],
 			'last_name' => ['required', 'string', 'max:10'],
 			'first_name' => ['required', 'string', 'max:10'],
-			'image' => ['nullable', 'exists:images,id'],
 		];
 	}
 }

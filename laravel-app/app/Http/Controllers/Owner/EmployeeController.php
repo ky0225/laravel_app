@@ -25,7 +25,7 @@ class EmployeeController extends Controller
 
 	public function index()
 	{
-		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email', 'image')
+		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
 			->orderBy('id', 'asc')->paginate(50);
 
 		return view('owner.employees.index', compact('employees'));
@@ -40,11 +40,8 @@ class EmployeeController extends Controller
 	{
 		$organizations = Organization::select('id', 'name')->get();
 		$bases = Base::select('id', 'name')->get();
-		$images = Image::select('id', 'filename', 'title')
-			->orderBy('updated_at', 'desc')
-			->get();
 
-		return view('owner.employees.create', compact('organizations', 'bases', 'images'));
+		return view('owner.employees.create', compact('organizations', 'bases'));
 	}
 
 	/**
@@ -62,7 +59,6 @@ class EmployeeController extends Controller
 			'last_name' => $request->last_name,
 			'first_name' => $request->first_name,
 			'email' => $request->email,
-			'image' => $request->image1,
 		]);
 
 		return redirect()
