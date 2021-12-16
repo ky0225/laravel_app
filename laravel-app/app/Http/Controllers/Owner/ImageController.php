@@ -7,6 +7,7 @@ use App\Services\ImageService;
 use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Http\Requests\UploadImageRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
@@ -116,10 +117,25 @@ class ImageController extends Controller
 	 * Remove the specified resource from storage.
 	 *
 	 * @param int $id
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function destroy($id)
 	{
-		//
+		// storageフォルダから削除
+		$image = Image::findOrFail($id);
+		$filePath = 'public/images/' . $image->filename;
+		if (Storage::exists($filePath)) {
+			Storage::delete($filePath);
+		}
+
+		// DBから削除
+		Image::findOrFail($id)->delete();
+
+		return redirect()
+			->route('owner.images.index')
+			->with([
+				'message' => '画像を削除しました。',
+				'status' => 'alert',
+			]);
 	}
 }
