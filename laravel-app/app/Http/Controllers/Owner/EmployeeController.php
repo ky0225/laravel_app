@@ -27,8 +27,10 @@ class EmployeeController extends Controller
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
 			->sortID($request->sort) // sort: indexファイルのname属性
 			->get();
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
 
-		return view('owner.employees.index', compact('employees'));
+		return view('owner.employees.index', compact('employees', 'organizations', 'bases'));
 	}
 
 	/**

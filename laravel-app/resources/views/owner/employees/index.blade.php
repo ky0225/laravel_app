@@ -1,12 +1,37 @@
 <x-app-layout>
 	<x-slot name="header">
-		<div class="flex justify-between items-center">
 			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
 				社員名簿
 			</h2>
-			<div>
+		  <div class="flex justify-between items-center">
 				<form method="get" action="{{ route('owner.employees.index') }}">
 					<div class="flex">
+						<div class="lg:flex items-center">
+							<select name="organization" class="mb-2 lg:mb-0">
+								<option value="0">全て</option>
+								@foreach($organizations as $organization)
+									<option value="{{ $organization->id }}">
+										{{ $organization->name }}
+									</option>
+								@endforeach
+							</select>
+							<select name="base" class="mb-2 lg:mb-0">
+								<option value="0">全て</option>
+								@foreach($bases as $base)
+									<option value="{{ $base->id }}">
+										{{ $base->name }}
+									</option>
+								@endforeach
+							</select>
+								<div class="flex space-x-2 items-center">
+									<div class="flex">
+										<input name="keyword" class="border text-gray-500 py-2" placeholder="キーワード入力">
+									</div>
+									<div>
+										<button class="text-white bg-indigo-500 border-0 mr-4 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">検索</button>
+									</div>
+								</div>
+						</div>
 						<div>
 							<span class="text-sm">表示順</span><br>
 							<select id="sort" name="sort" class="mr-4">
@@ -25,7 +50,6 @@
 					</div>
 				</form>
 			</div>
-		</div>
 	</x-slot>
 
 	<div class="py-12">
