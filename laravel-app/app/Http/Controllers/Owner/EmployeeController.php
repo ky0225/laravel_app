@@ -22,10 +22,13 @@ class EmployeeController extends Controller
 		$this->middleware('auth:owners');
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
+//		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
+//			->orderBy('id', 'asc')->paginate(50);
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
-			->orderBy('id', 'asc')->paginate(50);
+			->sortID($request->sort) // sort: indexファイルのname属性
+			->get();
 
 		return view('owner.employees.index', compact('employees'));
 	}

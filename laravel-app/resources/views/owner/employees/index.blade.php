@@ -1,8 +1,32 @@
 <x-app-layout>
 	<x-slot name="header">
-		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-			社員名簿
-		</h2>
+		<div class="flex justify-between items-center">
+			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+				社員名簿
+			</h2>
+			<div>
+				<form method="get" action="{{ route('owner.employees.index') }}">
+					<div class="flex">
+						<div>
+							<span class="text-sm">表示順</span><br>
+							<select id="sort" name="sort" class="mr-4">
+								<option value="{{ \Constant::SORT_ID['older']}}"
+									@if(\Request::get('sort') === \Constant::SORT_ID['older'] )
+										selected
+									@endif>ID昇順
+								</option>
+								<option value="{{ \Constant::SORT_ID['later']}}"
+									@if(\Request::get('sort') === \Constant::SORT_ID['later'] )
+										selected
+									@endif>ID降順
+								</option>
+							</select>
+						</div>
+						<div>表示件数</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</x-slot>
 
 	<div class="py-12">
@@ -62,11 +86,18 @@
 		</div>
 	</div>
 	<script>
+		// 削除の確認ダイアログ
 		function deletePost(e) {
 			'use strict';
 			if (confirm('本当に削除してもいいですか？')) {
 				document.getElementById('delete_' + e.dataset.id).submit();
 			}
 		}
+
+		// 表示切り替えの処理
+		const select = document.getElementById('sort');
+		select.addEventListener('change', function(){
+			this.form.submit();
+		});
 	</script>
 </x-app-layout>

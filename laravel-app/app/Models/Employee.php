@@ -33,4 +33,15 @@ class Employee extends Model
 		return $this->belongsTo(Base::class);
 	}
 
+	public function scopeSortID($query, $sortID)
+	{
+		// \Class名:propaty で 呼び出せる（config > app > aliases に登録しておくこと）
+		if ($sortID === null || $sortID === \Constant::SORT_ID['older']) {
+			return $query->orderBy('id', 'asc');
+		}
+		if ($sortID === \Constant::SORT_ID['later']) {
+			return $query->orderBy('id', 'desc');
+		}
+	}
+
 }
