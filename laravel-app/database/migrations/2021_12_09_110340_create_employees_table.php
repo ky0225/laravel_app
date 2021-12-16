@@ -15,12 +15,13 @@ class CreateEmployeesTable extends Migration
 	{
 		Schema::create('employees', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('organization_id')->references('id')->on('organizations');
-			$table->foreignId('base_id')->references('id')->on('bases');
+			$table->foreignId('organization_id')->constrained('organizations');
+			$table->foreignId('base_id')->constrained('bases');
 			$table->string('last_name');
 			$table->string('first_name');
 			$table->string('email')->unique('email');
-			$table->timestamp('deleted_at')->nullable('true');
+			$table->foreignId('image')->nullable('true')->constrained('images');
+			$table->softDeletes(); // ソフトデリートを保存する
 			$table->timestamps();
 		});
 	}

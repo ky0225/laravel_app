@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 			BaseSeeder::class,
 			EmployeeSeeder::class,
 			UsersSeeder::class,
+			ImageSeeder::class,
 		]);
 	}
 }
