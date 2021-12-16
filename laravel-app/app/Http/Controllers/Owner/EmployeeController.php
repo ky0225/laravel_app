@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -39,8 +40,11 @@ class EmployeeController extends Controller
 	{
 		$organizations = Organization::select('id', 'name')->get();
 		$bases = Base::select('id', 'name')->get();
+		$images = Image::select('id', 'filename', 'title')
+			->orderBy('updated_at', 'desc')
+			->get();
 
-		return view('owner.employees.create', compact('organizations', 'bases'));
+		return view('owner.employees.create', compact('organizations', 'bases', 'images'));
 	}
 
 	/**

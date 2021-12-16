@@ -68,6 +68,7 @@
 												<input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
 											</div>
 										</div>
+										<x-select-image :images="$images" name="image1"></x-select-image>
 										<div class="p-2 w-full flex justify-around mt-4">
 											<button type="button" onclick="location.href='{{ route('owner.employees.index') }}'" class="text-white bg-gray-400 border-0 py-2 px-8 focus:outline-none hover:bg-gray-500 rounded text-lg">戻る</button>
 											<button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">登録する</button>
@@ -82,4 +83,21 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		'use strict';
+		const images = document.querySelectorAll('.image'); //全てのimageタグを取得
+		images.forEach(image => { // 1つずつ繰り返す
+			image.addEventListener('click', function(e){ // クリックしたら
+				const imageName = e.target.dataset.id.substr(0, 6); //data-idの6文字
+				const imageId = e.target.dataset.id.replace(imageName + '_', ''); // 6文字カット
+				const imageFile = e.target.dataset.file;
+				const imagePath = e.target.dataset.path;
+				const modal = e.target.dataset.modal;
+				// サムネイルと input type=hiddenのvalueに設定
+				document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + imageFile;
+				document.getElementById(imageName + '_hidden').value = imageId;
+				MicroModal.close(modal); //モーダルを閉じる
+			})
+		})
+	</script>
 </x-app-layout>
