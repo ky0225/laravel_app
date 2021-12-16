@@ -33,9 +33,4 @@ class Employee extends Model
 		return $this->belongsTo(Base::class);
 	}
 
-	public function image()
-	{
-		return $this->hasOne(Image::class);
-	}
-
 }
