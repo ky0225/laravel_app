@@ -44,13 +44,13 @@ class Employee extends Model
 		}
 	}
 
-	public function scopeSortPrefecture($query, $sortPrefecture)
+	public function scopeSelectOrganization($query, $organizationID)
 	{
-		if ($sortPrefecture === null) {
-			return $query->orderBy('organization_id', 'asc');
-		}
-		if ($sortPrefecture === \Constant::SORT_PREFECTURE['tokyo']) {
-			return $query->where('organization_id', '1');
+		// 0 = 全て以外を選択している場合
+		if ($organizationID !== '0') {
+			return $query->where('organization_id', $organizationID);
+		} else {
+			return;
 		}
 	}
 

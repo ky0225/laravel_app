@@ -25,6 +25,7 @@ class EmployeeController extends Controller
 	public function index(Request $request)
 	{
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
+			->selectOrganization($request->organization ?? '0')
 			->sortID($request->sort) // sort: indexファイルのname属性
 			->get();
 		$organizations = Organization::select('id', 'name')->get();

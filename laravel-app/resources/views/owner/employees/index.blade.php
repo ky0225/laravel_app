@@ -8,21 +8,18 @@
 					<div class="flex">
 						<div class="lg:flex items-center">
 							<select name="organization" class="mb-2 lg:mb-0">
-								<option value="0">全て</option>
+								<option value="0"
+								@if(\Request::get('organization') === '0') selected
+								@endif> 全て
+								</option>
 								@foreach($organizations as $organization)
-									<option value="{{ $organization->id }}">
-										{{ $organization->name }}
+									<option value="{{ $organization->id }}"
+									@if(\Request::get('organization') == $organization->id) selected
+									@endif> {{ $organization->name }}
 									</option>
 								@endforeach
 							</select>
-							<select name="base" class="mb-2 lg:mb-0">
-								<option value="0">全て</option>
-								@foreach($bases as $base)
-									<option value="{{ $base->id }}">
-										{{ $base->name }}
-									</option>
-								@endforeach
-							</select>
+
 								<div class="flex space-x-2 items-center">
 									<div class="flex">
 										<input name="keyword" class="border text-gray-500 py-2" placeholder="キーワード入力">
