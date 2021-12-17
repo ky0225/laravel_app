@@ -54,6 +54,16 @@ class Employee extends Model
 		}
 	}
 
+	public function scopeSelectBase($query, $baseID)
+	{
+		// 0 = 全て以外を選択している場合
+		if ($baseID !== '0') {
+			return $query->where('base_id', $baseID);
+		} else {
+			return;
+		}
+	}
+
 	public function scopeSearchKeyword($query, $keyword)
 	{
 		if (!is_null($keyword)) {

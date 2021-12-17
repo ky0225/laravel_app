@@ -26,6 +26,7 @@ class EmployeeController extends Controller
 	{
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
 			->selectOrganization($request->organization ?? '0')
+			->selectBase($request->base ?? '0')
 			->searchKeyword($request->keyword)
 			->sortID($request->sort) // sort: indexファイルのname属性
 			->get();
