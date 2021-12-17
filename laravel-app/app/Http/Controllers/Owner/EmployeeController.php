@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmployeeStoreRequest;
 use App\Http\Requests\EmployeeUpdateRequest;
-use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Organization;
@@ -23,12 +22,18 @@ class EmployeeController extends Controller
 		$this->middleware('auth:owners');
 	}
 
-	public function index()
+	public function index(Request $request)
 	{
 		$employees = Employee::select('id', 'organization_id', 'base_id', 'last_name', 'first_name', 'email')
-			->orderBy('id', 'asc')->paginate(50);
+			->selectOrganization($request->organization ?? '0')
+			->selectBase($request->base ?? '0')
+			->searchKeyword($request->keyword)
+			->sortID($request->sort) // sort: indexファイルのname属性
+			->get();
+		$organizations = Organization::select('id', 'name')->get();
+		$bases = Base::select('id', 'name')->get();
 
-		return view('owner.employees.index', compact('employees'));
+		return view('owner.employees.index', compact('employees', 'organizations', 'bases'));
 	}
 
 	/**

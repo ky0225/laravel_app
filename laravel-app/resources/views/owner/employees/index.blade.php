@@ -1,8 +1,72 @@
 <x-app-layout>
 	<x-slot name="header">
-		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-			社員名簿
-		</h2>
+			<h2 class="font-semibold mb-4 text-xl text-gray-800 leading-tight">
+				社員名簿
+			</h2>
+		  <div class="flex justify-between items-center">
+				<form method="get" action="{{ route('owner.employees.index') }}">
+					<div class="flex">
+						<div class="lg:flex items-center">
+							<div class="mb-4">
+								所属で検索：
+								<select name="organization" class="mb-2 lg:mb-0">
+									<option value="0"
+									@if(\Request::get('organization') === '0') selected
+									@endif> 全て
+									</option>
+									@foreach($organizations as $organization)
+										<option value="{{ $organization->id }}"
+										@if(\Request::get('organization') == $organization->id) selected
+										@endif> {{ $organization->name }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+							<div class="mb-4">
+								拠点で検索：
+								<select name="base" class="mb-2 lg:mb-0">
+									<option value="0"
+													@if(\Request::get('base') === '0') selected
+										@endif> 全て
+									</option>
+									@foreach($bases as $base)
+										<option value="{{ $base->id }}"
+														@if(\Request::get('base') == $base->id) selected
+											@endif> {{ $base->name }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+
+								<div class="flex space-x-2 items-center">
+									<div class="flex">
+										<input name="keyword" class="border text-gray-1000 py-2 px-2" placeholder="キーワード入力">
+									</div>
+									<div>
+										<button class="text-white bg-indigo-500 border-0 mr-4 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">検索</button>
+									</div>
+									<div>
+										<span class="text-sm">表示順</span><br>
+										<select id="sort" name="sort" class="mr-4">
+											<option value="{{ \Constant::SORT_ID['older']}}"
+															@if(\Request::get('sort') === \Constant::SORT_ID['older'] )
+															selected
+												@endif>ID昇順
+											</option>
+											<option value="{{ \Constant::SORT_ID['later']}}"
+															@if(\Request::get('sort') === \Constant::SORT_ID['later'] )
+															selected
+												@endif>ID降順
+											</option>
+										</select>
+									</div>
+								</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
 	</x-slot>
 
 	<div class="py-12">
@@ -62,11 +126,18 @@
 		</div>
 	</div>
 	<script>
+		// 削除の確認ダイアログ
 		function deletePost(e) {
 			'use strict';
 			if (confirm('本当に削除してもいいですか？')) {
 				document.getElementById('delete_' + e.dataset.id).submit();
 			}
 		}
+
+		// 表示切り替えの処理
+		const select = document.getElementById('sort');
+		select.addEventListener('change', function(){
+			this.form.submit();
+		});
 	</script>
 </x-app-layout>
